@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verzora - Welcome</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- ✅ Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAfu39jzcKOZLrqhd_BdXxqyTT1lQHp5K0",
+      authDomain: "verzora-e7ea4.firebaseapp.com",
+      projectId: "verzora-e7ea4",
+      storageBucket: "verzora-e7ea4.firebasestorage.app",
+      messagingSenderId: "735650115523",
+      appId: "1:735650115523:web:13fff860df613a4c8bd776",
+      measurementId: "G-2Y2GRS8ENW"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const analytics = firebase.analytics();
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      height: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; background: #000;
+    }
+    .topbar {
+      background: #121212; color: white; padding: 12px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .topbar .left { font-size: 20px; font-weight: bold; }
+    .topbar .center {
+      flex: 1; text-align: center; position: relative;
+    }
+    .topbar .center input[type="text"] {
+      width: 60%; padding: 8px 40px 8px 12px;
+      border-radius: 20px; border: none;
+      background: #1f1f1f; color: white;
+    }
+    .mic-btn {
+      position: absolute; right: 21%; top: 50%; transform: translateY(-50%);
+      color: #aaa; font-size: 16px; cursor: pointer;
+    }
+    .topbar .right i {
+      margin-left: 20px; cursor: pointer;
+    }
+    .search-tags {
+      background: #1c1c1c; color: white; padding: 10px 20px;
+      display: flex; gap: 20px; font-size: 14px; border-bottom: 1px solid #333;
+      justify-content: center;
+    }
+    .search-tags span {
+      cursor: pointer; padding: 5px 10px;
+      border-radius: 20px; background: #2a2a2a;
+    }
+    .search-tags span:hover {
+      background: #444;
+    }
+    .welcome-screen {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+      z-index: 999; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; color: white; text-align: center;
+    }
+    .welcome-message {
+      font-size: 2.2rem; font-weight: bold;
+      text-shadow: 2px 2px 6px #000; padding: 0 30px;
+      animation: fadeIn 2s ease-in-out; z-index: 1;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    #particles-js {
+      position: absolute; width: 100%; height: 100%; z-index: 0;
+      background: linear-gradient(to right, #000428, #004e92);
+    }
+    .login-container {
+      display: none; height: 100vh; color: white;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+    .login-box {
+      background: #121212; padding: 40px; border-radius: 12px;
+      box-shadow: 0 0 20px rgba( 0, 0, 0, 0.5);
+      display: flex; flex-direction: column; gap: 15px; width: 350px;
+    }
+    .login-box h2 { font-size: 2rem; text-align: center; }
+    input {
+      padding: 12px; border-radius: 6px;
+      border: 1px solid #333; background: #1c1c1c; color: white;
+    }
+    button {
+      padding: 12px; border: none; border-radius: 6px;
+      background-color: #0095f6; color: white;
+      font-weight: bold; cursor: pointer;
+    }
+    button:hover { background-color: #007cc6; }
+    .main-dashboard {
+      display: none; height: 100vh; background: #000;
+      color: white; position: relative;
+    }
+    .menu-toggle {
+      position: absolute; top: 80px; right: 20px;
+      font-size: 24px; cursor: pointer; z-index: 10;
+    }
+    .sidebar {
+      position: absolute; top: 60px; left: 0;
+      width: 280px; height: calc(100% - 60px);
+      background: #111; padding: 20px;
+      display: none; overflow-y: auto;
+    }
+    .sidebar h3 {
+      margin: 15px 0 5px; font-size: 14px;
+      color: #888; text-transform: uppercase;
+    }
+    .sidebar a {
+      display: flex; align-items: center;
+      color: white; padding: 10px 0;
+      text-decoration: none; gap: 10px;
+    }
+    .sidebar a:hover { color: #00aaff; }
+    .submenu { margin-left: 20px; display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="welcome-screen" id="welcome">
+    <div id="particles-js"></div>
+    <div class="welcome-message">
+      ✨ Welcome to Verzora ✨<br>Your AI-powered world of Videos, Blogs, Posts & Ebooks
+    </div>
+  </div>
+
+  <div class="login-container" id="login">
+    <div class="login-box">
+      <h2>Verzora</h2>
+      <input type="email" placeholder="Phone number, username, or email">
+      <input type="password" placeholder="Password">
+      <button onclick="showDashboard()">Log in</button>
+      <h3 style="margin-top: 30px;">Or Sign up</h3>
+      <input type="text" placeholder="Full Name">
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Create Password">
+      <button onclick="showDashboard()">Sign up</button>
+    </div>
+  </div>
+
+  <div class="main-dashboard" id="dashboard">
+    <div class="topbar">
+      <div class="left">Verzora</div>
+      <div class="center">
+        <input type="text" id="searchInput" placeholder="Search here...">
+        <i class="fas fa-microphone mic-btn" onclick="startVoiceTyping()"></i>
+      </div>
+      <div class="right">
+        <i class="fas fa-video"></i>
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-user-circle"></i>
+      </div>
+    </div>
+
+    <div class="search-tags">
+      <span>Blogs</span>
+      <span>Posts</span>
+      <span>Ebooks</span>
+      <span>Videos</span>
+      <span>Links</span>
+    </div>
+
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <i class="fas fa-ellipsis-v"></i>
+    </div>
+    <div class="sidebar" id="sidebar">
+      <a href="#"><i class="fas fa-home"></i> Home</a>
+      <a href="#"><i class="fas fa-bolt"></i> Shorts</a>
+      <a href="#"><i class="fas fa-rss"></i> Subscription</a>
+      <a href="#" onclick="toggleSubmenu()"><i class="fas fa-user"></i> You <span>&rsaquo;</span></a>
+      <div class="submenu" id="submenu">
+        <a href="#"><i class="fas fa-clock"></i> History</a>
+        <a href="#"><i class="fas fa-folder"></i> Playlist</a>
+        <a href="#"><i class="fas fa-video"></i> Your Videos</a>
+        <a href="#"><i class="fas fa-graduation-cap"></i> Your Courses</a>
+        <a href="#"><i class="fas fa-history"></i> Watch Later</a>
+        <a href="#"><i class="fas fa-heart"></i> Liked Videos</a>
+        <a href="#"><i class="fas fa-music"></i> Music</a>
+        <a href="#"><i class="fas fa-broadcast-tower"></i> Live</a>
+        <a href="#"><i class="fas fa-newspaper"></i> News</a>
+        <a href="#"><i class="fas fa-football-ball"></i> Sport</a>
+        <a href="#"><i class="fas fa-tshirt"></i> Fashion & Beauty</a>
+        <a href="#"><i class="fas fa-podcast"></i> Podcast</a>
+      </div>
+      <h3>More from Verzora</h3>
+      <a href="#"><i class="fas fa-tools"></i> Studio</a>
+      <h3>Settings</h3>
+      <a href="#"><i class="fas fa-cog"></i> Settings</a>
+      <a href="#"><i class="fas fa-flag"></i> Report History</a>
+      <a href="#"><i class="fas fa-question-circle"></i> Help</a>
+      <a href="#"><i class="fas fa-comment-dots"></i> Send Feedback</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random: true },
+        size: { value: 4, random: true },
+        move: { enable: true, speed: 2 }
+      },
+      interactivity: {
+        events: { onhover: { enable: true, mode: "repulse" } },
+        modes: { repulse: { distance: 100 } }
+      }
+    });
+
+    const welcome = document.getElementById('welcome');
+    const login = document.getElementById('login');
+    const dashboard = document.getElementById('dashboard');
+    const sidebar = document.getElementById('sidebar');
+    const submenu = document.getElementById('submenu');
+
+    const welcomeAudio = new SpeechSynthesisUtterance("Welcome to Verzora. Your AI powered world of videos, blogs, posts, and ebooks. Please wait while we load your experience.");
+    window.speechSynthesis.speak(welcomeAudio);
+
+    setTimeout(() => {
+      welcome.style.display = 'none';
+      login.style.display = 'flex';
+    }, 8000);
+
+    function showDashboard() {
+      login.style.display = 'none';
+      dashboard.style.display = 'block';
+    }
+
+    function toggleMenu() {
+      sidebar.style.display = sidebar.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleSubmenu() {
+      submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function startVoiceTyping() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-IN';
+      recognition.start();
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("searchInput").value = transcript;
+      };
+    }
+  </script>
+</body>
+</html>
+
+
